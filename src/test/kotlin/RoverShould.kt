@@ -24,5 +24,17 @@ class RoverShould{
         assertEquals(rover.orientation, orientation)
     }
 
+    @Test
+    fun move_to_the_front(){
+        val axisX = 0
+        val axisY = 0
+        val orientation = 'S'
+        val move = 'f'
+
+        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
+        rover.move(move)
+        assertEquals(rover.y, axisY + 1)
+    }
+
 
 }
