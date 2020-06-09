@@ -77,7 +77,6 @@ class RoverShould{
         rover.move(movement)
         assertEquals(3, rover.y)
         assertEquals(1, rover.x)
-
     }
 
 

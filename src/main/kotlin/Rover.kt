@@ -28,27 +28,28 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
         }
     }
 
-    private fun rotate(direction: Char) {
+    private fun rotate(orientation: Char) {
 
         var coordinates = "NESW"
         var indexActualOrientation = coordinates.indexOf(this.orientation)
+        var indexNewOrientation = indexActualOrientation
 
-        if (direction == 'r') {
+        if (orientation == 'r') {
             if (indexActualOrientation == 3) {
-                indexActualOrientation = 0
+                indexNewOrientation = 0
             } else {
-                indexActualOrientation++
+                indexNewOrientation++
             }
         }
 
-        if (direction == 'l') {
+        if (orientation == 'l') {
             if (indexActualOrientation == 0) {
-                indexActualOrientation = 3
+                indexNewOrientation = 3
             } else {
-                indexActualOrientation--
+                indexNewOrientation--
             }
         }
 
-        this.orientation = coordinates[indexActualOrientation]
+        this.orientation = coordinates[indexNewOrientation]
     }
 }
