@@ -29,11 +29,23 @@ class RoverShould{
         val axisX = 0
         val axisY = 0
         val orientation = 'S'
-        val move = 'f'
+        val movement = 'f'
 
         val rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.move(move)
+        rover.move(movement)
         assertEquals(rover.y, axisY + 1)
+    }
+
+    @Test
+    fun move_to_the_back(){
+        val axisX = 0
+        val axisY = 0
+        val orientation = 'S'
+        val movement = 'b'
+
+        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
+        rover.move(movement)
+        assertEquals(axisY - 1, rover.y)
     }
 
 
