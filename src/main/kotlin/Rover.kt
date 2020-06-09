@@ -3,28 +3,29 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     fun move(commands: String) {
         for (char: Char in commands) {
 
-            if (char == 'f') {
-
-                when(this.orientation){
-                    'N' -> this.y++
-                    'E' -> this.x++
-                    'S' -> this.y--
-                    'W' -> this.x--
-                }
+            when(char) {
+                'f' -> goFront (this.orientation)
+                'b' -> goBack (this.orientation)
+                'l','r' -> rotate(char)
             }
+        }
+    }
 
-            if (char == 'b') {
-                when(this.orientation){
-                    'N' -> this.y--
-                    'E' -> this.x--
-                    'S' -> this.y++
-                    'W' -> this.x++
-                }
-            }
+    private fun goFront(orientation : Char){
+        when (orientation) {
+            'N' -> this.y++
+            'E' -> this.x++
+            'S' -> this.y--
+            'W' -> this.x--
+        }
+    }
 
-            if (char == 'r' || char == 'l') {
-                rotate(char)
-            }
+    private fun goBack(orientation : Char){
+        when (this.orientation) {
+            'N' -> this.y--
+            'E' -> this.x--
+            'S' -> this.y++
+            'W' -> this.x++
         }
     }
 
@@ -52,4 +53,18 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
         this.orientation = coordinates[indexNewOrientation]
     }
+
 }
+
+data class Map(val maxWidth: Int, val MaxHeight: Int) {
+    fun checkMapLimits() {
+    }
+}
+
+data class Obstacles(var obstacles: List<Obstacle>) {
+    fun checkMapObstacles() : Boolean {
+        return false;
+    }
+}
+
+data class Obstacle(val x: Int, val y: Int)
