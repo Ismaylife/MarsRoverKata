@@ -56,13 +56,13 @@ class RoverShould{
         var movement = 'r'
 
         var rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.rotate(movement)
+        rover.move(movement)
         assertEquals('E', rover.orientation)
 
         movement = 'l'
 
         rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.rotate(movement)
+        rover.move(movement)
         assertEquals('W', rover.orientation)
     }
 

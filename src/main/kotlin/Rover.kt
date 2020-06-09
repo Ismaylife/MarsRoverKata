@@ -10,9 +10,13 @@ data class Rover(var x: Int, var y: Int, var orientation: Char){
             this.y--
         }
 
+        if (direction == 'r' || direction == 'l'){
+            rotate(direction)
+        }
     }
 
-    fun rotate(direction: Char){
+    private fun rotate(direction: Char){
+
         var coordinates = "NESW"
         var indexActualOrientation = coordinates.indexOf(this.orientation)
 
@@ -35,6 +39,5 @@ data class Rover(var x: Int, var y: Int, var orientation: Char){
         }
 
         this.orientation = coordinates[indexActualOrientation]
-
     }
 }
