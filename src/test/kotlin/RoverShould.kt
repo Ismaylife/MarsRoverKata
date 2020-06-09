@@ -71,17 +71,13 @@ class RoverShould{
         val axisX = 0
         val axisY = 0
         val orientation = 'N'
-        var movement = "r"
+        var movement = "fffrf"
 
         var rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
-        assertEquals('E', rover.orientation)
+        assertEquals(3, rover.y)
+        assertEquals(1, rover.x)
 
-        movement = "l"
-
-        rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.move(movement)
-        assertEquals('W', rover.orientation)
     }
 
 

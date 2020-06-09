@@ -3,7 +3,6 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     fun move(commands: String) {
         for (char: Char in commands) {
 
-
             if (char == 'f') {
 
                 when(this.orientation){
