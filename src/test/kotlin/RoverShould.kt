@@ -29,7 +29,7 @@ class RoverShould{
         val axisX = 0
         val axisY = 0
         val orientation = 'N'
-        val movement = 'f'
+        val movement = "f"
 
         val rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
@@ -41,7 +41,7 @@ class RoverShould{
         val axisX = 0
         val axisY = 0
         val orientation = 'N'
-        val movement = 'b'
+        val movement = "b"
 
         val rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
@@ -53,18 +53,38 @@ class RoverShould{
         val axisX = 0
         val axisY = 0
         val orientation = 'N'
-        var movement = 'r'
+        var movement = "r"
 
         var rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
         assertEquals('E', rover.orientation)
 
-        movement = 'l'
+        movement = "l"
 
         rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
         assertEquals('W', rover.orientation)
     }
+
+    @Test
+    fun move_and_rotate_with_a_String_instructions_given(){
+        val axisX = 0
+        val axisY = 0
+        val orientation = 'N'
+        var movement = "r"
+
+        var rover = Rover(x = axisX, y = axisY, orientation = orientation)
+        rover.move(movement)
+        assertEquals('E', rover.orientation)
+
+        movement = "l"
+
+        rover = Rover(x = axisX, y = axisY, orientation = orientation)
+        rover.move(movement)
+        assertEquals('W', rover.orientation)
+    }
+
+
 
 
 }
