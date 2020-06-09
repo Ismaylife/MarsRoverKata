@@ -1,18 +1,17 @@
 data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
     fun move(commands: String) {
-        for (char: Char in commands) {
-
-            when(char) {
-                'f' -> goFront (this.orientation)
-                'b' -> goBack (this.orientation)
-                'l','r' -> rotate(char)
+        for (command: Char in commands) {
+            when(command) {
+                'f' -> goFront ()
+                'b' -> goBack ()
+                'l','r' -> rotate(command)
             }
         }
     }
 
-    private fun goFront(orientation : Char){
-        when (orientation) {
+    private fun goFront(){
+        when (this.orientation) {
             'N' -> this.y++
             'E' -> this.x++
             'S' -> this.y--
@@ -20,7 +19,7 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
         }
     }
 
-    private fun goBack(orientation : Char){
+    private fun goBack(){
         when (this.orientation) {
             'N' -> this.y--
             'E' -> this.x--
@@ -33,25 +32,27 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
         var coordinates = "NESW"
         var indexActualOrientation = coordinates.indexOf(this.orientation)
-        var indexNewOrientation = indexActualOrientation
+        var indexOfNewOrientation = indexActualOrientation
 
-        if (orientation == 'r') {
-            if (indexActualOrientation == 3) {
-                indexNewOrientation = 0
-            } else {
-                indexNewOrientation++
+        when(orientation){
+            'r' -> {
+                if (indexActualOrientation == 3) {
+                    indexOfNewOrientation = 0
+                } else {
+                    indexOfNewOrientation++
+                }
+            }
+
+            'l' -> {
+                if (indexActualOrientation == 0) {
+                    indexOfNewOrientation = 3
+                } else {
+                    indexOfNewOrientation--
+                }
             }
         }
 
-        if (orientation == 'l') {
-            if (indexActualOrientation == 0) {
-                indexNewOrientation = 3
-            } else {
-                indexNewOrientation--
-            }
-        }
-
-        this.orientation = coordinates[indexNewOrientation]
+        this.orientation = coordinates[indexOfNewOrientation]
     }
 
 }
