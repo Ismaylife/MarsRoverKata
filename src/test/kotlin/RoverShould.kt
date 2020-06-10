@@ -5,14 +5,16 @@ import kotlin.test.assertEquals
 class RoverShould {
 
     lateinit var rover: Rover
+    lateinit var map : Map
 
     @Before
     fun generate_rover() {
         rover = Rover(x = 0, y = 0, orientation = 'N')
+        map = Map(10 , 10)
     }
 
     @Test
-    fun generate_a_rover() {
+    fun position_a_rover() {
         assertEquals('N', rover.orientation)
         assertEquals(0, rover.x)
         assertEquals(0, rover.y)
@@ -27,7 +29,7 @@ class RoverShould {
     @Test
     fun move_to_the_back() {
         rover.move("b")
-        assertEquals(0 - 1, rover.y)
+        assertEquals(map.maxHeight, rover.y)
     }
 
     @Test
@@ -49,5 +51,12 @@ class RoverShould {
         rover.move("fffrf")
         assertEquals(3, rover.y)
         assertEquals(1, rover.x)
+    }
+
+    @Test
+    fun move_into_wrap_map_limits(){
+        rover.move("brb")
+        assertEquals(10, rover.y)
+        assertEquals(10, rover.x)
     }
 }
