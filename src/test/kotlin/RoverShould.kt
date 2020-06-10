@@ -1,85 +1,53 @@
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class RoverShould{
+class RoverShould {
 
-    @Test
-    fun be_in_a_given_coordinates(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
+    lateinit var rover: Rover
 
-        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        assertEquals(rover.x, axisX)
-        assertEquals(rover.y, axisY)
+    @Before
+    fun generate_rover() {
+        rover = Rover(x = 0, y = 0, orientation = 'N')
     }
 
     @Test
-    fun be_in_a_given_orientation(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
-
-        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        assertEquals(rover.orientation, orientation)
+    fun generate_a_rover() {
+        assertEquals('N', rover.orientation)
+        assertEquals(0, rover.x)
+        assertEquals(0, rover.y)
     }
 
     @Test
-    fun move_to_the_front(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
-        val movement = "f"
-
-        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.move(movement)
-        assertEquals(rover.y, axisY + 1)
+    fun move_to_the_front() {
+        rover.move("f")
+        assertEquals(0 + 1, rover.y)
     }
 
     @Test
-    fun move_to_the_back(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
-        val movement = "b"
-
-        val rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.move(movement)
-        assertEquals(axisY - 1, rover.y)
+    fun move_to_the_back() {
+        rover.move("b")
+        assertEquals(0 - 1, rover.y)
     }
 
     @Test
-    fun be_reoriented(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
+    fun be_reoriented_to_the_right() {
         var movement = "r"
-
-        var rover = Rover(x = axisX, y = axisY, orientation = orientation)
         rover.move(movement)
         assertEquals('E', rover.orientation)
+    }
 
-        movement = "l"
-
-        rover = Rover(x = axisX, y = axisY, orientation = orientation)
+    @Test
+    fun be_reoriented_to_the_left() {
+        var movement = "l"
         rover.move(movement)
         assertEquals('W', rover.orientation)
     }
 
     @Test
-    fun move_and_rotate_with_a_String_instructions_given(){
-        val axisX = 0
-        val axisY = 0
-        val orientation = 'N'
-        var movement = "fffrf"
-
-        var rover = Rover(x = axisX, y = axisY, orientation = orientation)
-        rover.move(movement)
+    fun move_and_rotate_with_multiple_instructions_given() {
+        rover.move("fffrf")
         assertEquals(3, rover.y)
         assertEquals(1, rover.x)
     }
-
-
-
-
 }
