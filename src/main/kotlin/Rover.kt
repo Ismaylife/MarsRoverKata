@@ -60,10 +60,7 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     }
 
     private fun checkMovement(x: Int, y: Int): Boolean {
-        if (isIntoMapLimits(x, y)) {
-            if (!isAnyObstacle(x, y)) return true
-        }
-        return false
+        return isIntoMapLimits(x, y) && !isAnyObstacle(x, y)
 
     }
 
