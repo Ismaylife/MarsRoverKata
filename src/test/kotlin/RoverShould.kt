@@ -59,4 +59,11 @@ class RoverShould {
         assertEquals(10, rover.y)
         assertEquals(10, rover.x)
     }
+
+    @Test
+    fun detect_an_obstacle(){
+        rover.move("fffffrfffff")
+        assertEquals(5, rover.y)
+        assertEquals(4, rover.x)
+    }
 }
