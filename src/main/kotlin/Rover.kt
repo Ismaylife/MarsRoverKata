@@ -1,9 +1,7 @@
-import kotlin.math.sign
-
 data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
     private val map = Map(10, 10)
-    private val obstacle = Obstacle(5, 5)
+    private val obstacle = Obstacle(Coordinates(5, 5))
     private val obstacleList = listOf<Obstacle>(obstacle)
 
     fun move(commands: String) {
@@ -18,32 +16,38 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
     private fun goFront() {
         var coordinates = Coordinates(this.x, this.y)
-        var newPosition = coordinates
+        lateinit var newPosition : Coordinates
 
-        when (this.orientation) {
-            'N' -> newPosition = confirmMovement(coordinates.x, coordinates.y + 1)
-            'E' -> newPosition = confirmMovement(coordinates.x + 1, coordinates.y)
-            'S' -> newPosition = confirmMovement(coordinates.x, coordinates.y - 1)
-            'W' -> newPosition = confirmMovement(coordinates.x - 1, coordinates.y)
-        }
+        newPosition = calculateNewPositionGoingForward(coordinates)
 
         this.x = newPosition.x
         this.y = newPosition.y
     }
 
-    private fun goBack() {
-        var coordinates = Coordinates(this.x, this.y)
-        var newPosition = coordinates
-
-        when (this.orientation) {
-            'N' -> newPosition = confirmMovement(coordinates.x, coordinates.y - 1)
-            'E' -> newPosition = confirmMovement(coordinates.x - 1, coordinates.y)
-            'S' -> newPosition = confirmMovement(coordinates.x, coordinates.y + 1)
-            'W' -> newPosition = confirmMovement(coordinates.x + 1, coordinates.y)
+    private fun calculateNewPositionGoingForward(coordinates: Coordinates): Coordinates {
+        return when (this.orientation) {
+            'N' -> confirmMovement(coordinates.x, coordinates.y + 1)
+            'E' -> confirmMovement(coordinates.x + 1, coordinates.y)
+            'S' -> confirmMovement(coordinates.x, coordinates.y - 1)
+            'W' -> confirmMovement(coordinates.x - 1, coordinates.y)
+            else -> coordinates
         }
+    }
 
-        this.x = newPosition.x
-        this.y = newPosition.y
+    private fun goBack() {
+
+        this.x = calculateNewPositionGoingBackwards(Coordinates(x, y)).x
+        this.y = calculateNewPositionGoingBackwards(Coordinates(x, y)).y
+    }
+
+    private fun calculateNewPositionGoingBackwards(coordinates: Coordinates): Coordinates {
+        return when (this.orientation) {
+            'N' -> confirmMovement(coordinates.x, coordinates.y - 1)
+            'E' -> confirmMovement(coordinates.x - 1, coordinates.y)
+            'S' -> confirmMovement(coordinates.x, coordinates.y + 1)
+            'W' -> confirmMovement(coordinates.x + 1, coordinates.y)
+            else -> coordinates
+        }
     }
 
     private fun rotate(orientation: Char) {
@@ -76,7 +80,7 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     private fun confirmMovement(x: Int, y: Int): Coordinates {
         var newPosition = Coordinates(this.x, this.y)
         if(!isAnyObstacle(x, y)){
-            if (isIntoMapLimits(x, y)){
+            if (isIntoMapSLimits(x, y)){
                 newPosition.x = x
                 newPosition.y = y
             }
@@ -94,14 +98,14 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     }
 
 
-    private fun isIntoMapLimits(x: Int, y: Int): Boolean {
+    private fun isIntoMapSLimits(x: Int, y: Int): Boolean {
         return !(x > 10 || x < 0 || y > 10 || y < 0)
     }
 
     private fun isAnyObstacle(x: Int, y: Int): Boolean {
         var thereIs = false
         for (obstacle in obstacleList) {
-            if (obstacle.x == x && obstacle.y == y) {
+            if (obstacle.getX() == x && obstacle.getY() == y) {
                 thereIs = true
                 return thereIs
             }
@@ -109,11 +113,17 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
         return thereIs
     }
 
-
 }
 
 data class Coordinates(var x: Int, var y: Int)
 
 data class Map(val maxWidth: Int, val maxHeight: Int)
 
-data class Obstacle(val x: Int, val y: Int)
+data class Obstacle(val coordinates : Coordinates){
+    fun getX() : Int{
+        return this.coordinates.x
+    }
+    fun getY() : Int{
+        return this.coordinates.y
+    }
+}
