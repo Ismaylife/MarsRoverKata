@@ -1,3 +1,5 @@
+import kotlin.math.sign
+
 data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
     private val map = Map(10, 10)
@@ -15,21 +17,33 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
     }
 
     private fun goFront() {
+        var coordinates = Coordinates(this.x, this.y)
+        var newPosition = coordinates
+
         when (this.orientation) {
-            'N' -> if (checkMovement(this.x, this.y + 1)) this.y++ else this.y = 0
-            'E' -> if (checkMovement(this.x + 1, this.y)) this.x++ else this.x = 0
-            'S' -> if (checkMovement(this.x, this.y - 1)) this.y-- else this.y = map.maxHeight
-            'W' -> if (checkMovement(this.x - 1, this.y)) this.x-- else this.x = map.maxWidth
+            'N' -> newPosition = confirmMovement(coordinates.x, coordinates.y + 1)
+            'E' -> newPosition = confirmMovement(coordinates.x + 1, coordinates.y)
+            'S' -> newPosition = confirmMovement(coordinates.x, coordinates.y - 1)
+            'W' -> newPosition = confirmMovement(coordinates.x - 1, coordinates.y)
         }
+
+        this.x = newPosition.x
+        this.y = newPosition.y
     }
 
     private fun goBack() {
+        var coordinates = Coordinates(this.x, this.y)
+        var newPosition = coordinates
+
         when (this.orientation) {
-            'N' -> if (checkMovement(this.x, this.y - 1)) this.y-- else this.y = map.maxHeight
-            'E' -> if (checkMovement(this.x - 1, this.y)) this.x-- else this.x = map.maxWidth
-            'S' -> if (checkMovement(this.x, this.y + 1)) this.y++ else this.y = 0
-            'W' -> if (checkMovement(this.x + 1, this.y)) this.x++ else this.x = 0
+            'N' -> newPosition = confirmMovement(coordinates.x, coordinates.y - 1)
+            'E' -> newPosition = confirmMovement(coordinates.x - 1, coordinates.y)
+            'S' -> newPosition = confirmMovement(coordinates.x, coordinates.y + 1)
+            'W' -> newPosition = confirmMovement(coordinates.x + 1, coordinates.y)
         }
+
+        this.x = newPosition.x
+        this.y = newPosition.y
     }
 
     private fun rotate(orientation: Char) {
@@ -59,14 +73,28 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
         this.orientation = coordinates[indexOfNewOrientation]
     }
 
-    private fun checkMovement(x: Int, y: Int): Boolean {
-        return isIntoMapLimits(x, y) && !isAnyObstacle(x, y)
+    private fun confirmMovement(x: Int, y: Int): Coordinates {
+        var newPosition = Coordinates(this.x, this.y)
+        if(!isAnyObstacle(x, y)){
+            if (isIntoMapLimits(x, y)){
+                newPosition.x = x
+                newPosition.y = y
+            }
+            else {
+                when{
+                    x < 0  -> newPosition.x = map.maxWidth
+                    x > 10 -> newPosition.x = 0
+                    y < 0  -> newPosition.y = map.maxHeight
+                    y > 10 -> newPosition.y = 0
+                }
+            }
+        }
 
+        return newPosition
     }
 
 
     private fun isIntoMapLimits(x: Int, y: Int): Boolean {
-        val map = Map(10, 10)
         return !(x > 10 || x < 0 || y > 10 || y < 0)
     }
 
@@ -84,6 +112,7 @@ data class Rover(var x: Int, var y: Int, var orientation: Char) {
 
 }
 
+data class Coordinates(var x: Int, var y: Int)
 
 data class Map(val maxWidth: Int, val maxHeight: Int)
 
